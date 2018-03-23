@@ -1,0 +1,4 @@
+package pt.ist.renates.domain;
+
+class thesis.ThesisRenatesReportFile extends .org.fenixedu.academic.domain.QueueJobWithFile {
+}
