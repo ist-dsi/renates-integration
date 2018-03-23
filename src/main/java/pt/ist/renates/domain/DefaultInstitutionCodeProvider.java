@@ -20,6 +20,7 @@
 package pt.ist.renates.domain;
 
 import org.fenixedu.academic.domain.DegreeCurricularPlan;
+import org.fenixedu.bennu.RenatesIntegrationConfiguration;
 
 public class DefaultInstitutionCodeProvider implements InstitutionCodeProvider {
 
