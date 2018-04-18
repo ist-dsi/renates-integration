@@ -1,19 +1,22 @@
-package pt.ist.renates.domain;
+package org.fenixedu.bennu;
 
 import org.fenixedu.commons.configuration.ConfigurationInvocationHandler;
 import org.fenixedu.commons.configuration.ConfigurationManager;
 import org.fenixedu.commons.configuration.ConfigurationProperty;
 
+import pt.ist.renates.domain.DefaultInstitutionCodeProvider;
+import pt.ist.renates.domain.InstitutionCodeProvider;
+
 public class RenatesIntegrationConfiguration {
 
     private static InstitutionCodeProvider institutionCodeProvider;
 
-    @ConfigurationManager(description = "FenixEdu Academic Configuration")
+    @ConfigurationManager(description = "Renates Integration Configuration")
     public interface ConfigurationProperties {
-        @ConfigurationProperty(key = "establishment.code", defaultValue = "0000")
+        @ConfigurationProperty(key = "renates.establishment.code", defaultValue = "0000")
         public String getEstablishmentCode();
 
-        @ConfigurationProperty(key = "organic.unit.code", defaultValue = "0000")
+        @ConfigurationProperty(key = "renates.organic.unit.code", defaultValue = "0000")
         public String getOrganicUnitCode();
     }
 

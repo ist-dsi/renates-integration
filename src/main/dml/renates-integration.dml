@@ -1,4 +1,18 @@
 package pt.ist.renates.domain;
 
+class thesis.ThesisId {
+	String id;
+}
+
 class thesis.ThesisRenatesReportFile extends .org.fenixedu.academic.domain.QueueJobWithFile {
+}
+
+relation ThesisToThesisId {
+	.org.fenixedu.academic.domain.thesis.Thesis playsRole thesis {
+		multiplicity 1..1;
+	}
+	thesis.ThesisId playsRole thesisId {
+		multiplicity 0..1;
+	}
+
 }
