@@ -31,7 +31,7 @@ public class RenatesUtil {
         return Joiner.on("/").join(approval, course, istId);
     }
 
-    public Set<Thesis> getRenatesThesis() {
+    public static Set<Thesis> getRenatesThesis() {
         Set<Thesis> thesisSet = new HashSet<Thesis>();
         Set<CurriculumGroup> collect =
                 Bennu.getInstance().getProgramConclusionSet().stream().flatMap(pc -> pc.getCourseGroupSet().stream())
