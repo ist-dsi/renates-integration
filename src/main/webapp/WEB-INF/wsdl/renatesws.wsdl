@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/Ws/RenatesWS" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://tempuri.org/Ws/RenatesWS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/Ws/RenatesWS">
+      <s:element name="Tese">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TeseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TeseResult">
+              <s:complexType>
+                <s:sequence>
+                  <!-- <s:element ref="s:schema" /> -->
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ListaOrientadores">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ListaOrientadoresResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ListaOrientadoresResult">
+              <s:complexType>
+                <s:sequence>
+                  <!-- <s:element ref="s:schema" /> -->
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RCAAP" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TIDResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PesquisaGeral">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Tipo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EstadoTese" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Autor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ORCID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Titulo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CodAreaDisciplinar" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AreaDisciplinar" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AnoGrau" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CodTipoDoutoramento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CodEstabelecimentoPortugues" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EstabelecimentoPortugues" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CodUnidadeOrganica" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UnidadeOrganica" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="InstituicaoEstrangeira" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PaisInstituicaoEstrangeira" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OutraInstituicaoEstrangeira" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OutrosPaisesEstrangeiros" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AnoGrauEstrangeiro" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Orientador" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OrientadorORCID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="HandleDepositoRCAAP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DepositoRCAAPVerificado" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Identificador_Financ" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UltimaAtualizacaoDados_Data1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UltimaAtualizacaoDados_Data2" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PesquisaGeralResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PesquisaGeralResult">
+              <s:complexType>
+                <s:sequence>
+                  <!-- <s:element ref="s:schema" /> -->
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PesquisaTexto">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Texto" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PesquisaTextoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PesquisaTextoResult">
+              <s:complexType>
+                <s:sequence>
+                  <!-- <s:element ref="s:schema" /> -->
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PesquisaRegistoInternoID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CodUnidadeOrganica" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RegistoInternoID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PesquisaRegistoInternoIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PesquisaRegistoInternoIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <!-- <s:element ref="s:schema" /> -->
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DataSet" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <!-- <s:element ref="s:schema" /> -->
+            <s:any />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="TeseSoapIn">
+    <wsdl:part name="parameters" element="tns:Tese" />
+  </wsdl:message>
+  <wsdl:message name="TeseSoapOut">
+    <wsdl:part name="parameters" element="tns:TeseResponse" />
+  </wsdl:message>
+  <wsdl:message name="ListaOrientadoresSoapIn">
+    <wsdl:part name="parameters" element="tns:ListaOrientadores" />
+  </wsdl:message>
+  <wsdl:message name="ListaOrientadoresSoapOut">
+    <wsdl:part name="parameters" element="tns:ListaOrientadoresResponse" />
+  </wsdl:message>
+  <wsdl:message name="TIDSoapIn">
+    <wsdl:part name="parameters" element="tns:TID" />
+  </wsdl:message>
+  <wsdl:message name="TIDSoapOut">
+    <wsdl:part name="parameters" element="tns:TIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="PesquisaGeralSoapIn">
+    <wsdl:part name="parameters" element="tns:PesquisaGeral" />
+  </wsdl:message>
+  <wsdl:message name="PesquisaGeralSoapOut">
+    <wsdl:part name="parameters" element="tns:PesquisaGeralResponse" />
+  </wsdl:message>
+  <wsdl:message name="PesquisaTextoSoapIn">
+    <wsdl:part name="parameters" element="tns:PesquisaTexto" />
+  </wsdl:message>
+  <wsdl:message name="PesquisaTextoSoapOut">
+    <wsdl:part name="parameters" element="tns:PesquisaTextoResponse" />
+  </wsdl:message>
+  <wsdl:message name="PesquisaRegistoInternoIDSoapIn">
+    <wsdl:part name="parameters" element="tns:PesquisaRegistoInternoID" />
+  </wsdl:message>
+  <wsdl:message name="PesquisaRegistoInternoIDSoapOut">
+    <wsdl:part name="parameters" element="tns:PesquisaRegistoInternoIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="TeseHttpGetIn">
+    <wsdl:part name="TID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="TeseHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ListaOrientadoresHttpGetIn">
+    <wsdl:part name="TID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ListaOrientadoresHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="TIDHttpGetIn">
+    <wsdl:part name="RCAAP" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="TIDHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="PesquisaGeralHttpGetIn">
+    <wsdl:part name="Tipo" type="s:string" />
+    <wsdl:part name="EstadoTese" type="s:string" />
+    <wsdl:part name="Autor" type="s:string" />
+    <wsdl:part name="ORCID" type="s:string" />
+    <wsdl:part name="Titulo" type="s:string" />
+    <wsdl:part name="CodAreaDisciplinar" type="s:string" />
+    <wsdl:part name="AreaDisciplinar" type="s:string" />
+    <wsdl:part name="AnoGrau" type="s:string" />
+    <wsdl:part name="CodTipoDoutoramento" type="s:string" />
+    <wsdl:part name="CodEstabelecimentoPortugues" type="s:string" />
+    <wsdl:part name="EstabelecimentoPortugues" type="s:string" />
+    <wsdl:part name="CodUnidadeOrganica" type="s:string" />
+    <wsdl:part name="UnidadeOrganica" type="s:string" />
+    <wsdl:part name="InstituicaoEstrangeira" type="s:string" />
+    <wsdl:part name="PaisInstituicaoEstrangeira" type="s:string" />
+    <wsdl:part name="OutraInstituicaoEstrangeira" type="s:string" />
+    <wsdl:part name="OutrosPaisesEstrangeiros" type="s:string" />
+    <wsdl:part name="AnoGrauEstrangeiro" type="s:string" />
+    <wsdl:part name="Orientador" type="s:string" />
+    <wsdl:part name="OrientadorORCID" type="s:string" />
+    <wsdl:part name="HandleDepositoRCAAP" type="s:string" />
+    <wsdl:part name="DepositoRCAAPVerificado" type="s:string" />
+    <wsdl:part name="Identificador_Financ" type="s:string" />
+    <wsdl:part name="UltimaAtualizacaoDados_Data1" type="s:string" />
+    <wsdl:part name="UltimaAtualizacaoDados_Data2" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PesquisaGeralHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="PesquisaTextoHttpGetIn">
+    <wsdl:part name="Texto" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PesquisaTextoHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="PesquisaRegistoInternoIDHttpGetIn">
+    <wsdl:part name="CodUnidadeOrganica" type="s:string" />
+    <wsdl:part name="RegistoInternoID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PesquisaRegistoInternoIDHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="TeseHttpPostIn">
+    <wsdl:part name="TID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="TeseHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ListaOrientadoresHttpPostIn">
+    <wsdl:part name="TID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ListaOrientadoresHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="TIDHttpPostIn">
+    <wsdl:part name="RCAAP" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="TIDHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="PesquisaGeralHttpPostIn">
+    <wsdl:part name="Tipo" type="s:string" />
+    <wsdl:part name="EstadoTese" type="s:string" />
+    <wsdl:part name="Autor" type="s:string" />
+    <wsdl:part name="ORCID" type="s:string" />
+    <wsdl:part name="Titulo" type="s:string" />
+    <wsdl:part name="CodAreaDisciplinar" type="s:string" />
+    <wsdl:part name="AreaDisciplinar" type="s:string" />
+    <wsdl:part name="AnoGrau" type="s:string" />
+    <wsdl:part name="CodTipoDoutoramento" type="s:string" />
+    <wsdl:part name="CodEstabelecimentoPortugues" type="s:string" />
+    <wsdl:part name="EstabelecimentoPortugues" type="s:string" />
+    <wsdl:part name="CodUnidadeOrganica" type="s:string" />
+    <wsdl:part name="UnidadeOrganica" type="s:string" />
+    <wsdl:part name="InstituicaoEstrangeira" type="s:string" />
+    <wsdl:part name="PaisInstituicaoEstrangeira" type="s:string" />
+    <wsdl:part name="OutraInstituicaoEstrangeira" type="s:string" />
+    <wsdl:part name="OutrosPaisesEstrangeiros" type="s:string" />
+    <wsdl:part name="AnoGrauEstrangeiro" type="s:string" />
+    <wsdl:part name="Orientador" type="s:string" />
+    <wsdl:part name="OrientadorORCID" type="s:string" />
+    <wsdl:part name="HandleDepositoRCAAP" type="s:string" />
+    <wsdl:part name="DepositoRCAAPVerificado" type="s:string" />
+    <wsdl:part name="Identificador_Financ" type="s:string" />
+    <wsdl:part name="UltimaAtualizacaoDados_Data1" type="s:string" />
+    <wsdl:part name="UltimaAtualizacaoDados_Data2" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PesquisaGeralHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="PesquisaTextoHttpPostIn">
+    <wsdl:part name="Texto" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PesquisaTextoHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="PesquisaRegistoInternoIDHttpPostIn">
+    <wsdl:part name="CodUnidadeOrganica" type="s:string" />
+    <wsdl:part name="RegistoInternoID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PesquisaRegistoInternoIDHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:portType name="RenatesWSSoap">
+    <wsdl:operation name="Tese">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retorna um conjunto de informação relativa a uma tese de doutoramento ou dissertação de mestrado, sendo necessário indicar o seu identificador TID.&lt;br&gt;  - &lt;a href='RenatesWs_Tese.xlsx'&gt; Nome e descrição das variáveis devolvidas [xlsx]&lt;/a&gt;</wsdl:documentation>
+      <wsdl:input message="tns:TeseSoapIn" />
+      <wsdl:output message="tns:TeseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ListaOrientadores">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retorna um conjunto de informação relativa aos orientadores de uma tese de doutoramento ou dissertação de mestrado, sendo necessário indicar o seu identificador TID.</wsdl:documentation>
+      <wsdl:input message="tns:ListaOrientadoresSoapIn" />
+      <wsdl:output message="tns:ListaOrientadoresSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retorna o identificador TID de uma tese de doutoramento ou dissertação de mestrado, sendo necessário indicar o seu HandleDepositoRCAAP.</wsdl:documentation>
+      <wsdl:input message="tns:TIDSoapIn" />
+      <wsdl:output message="tns:TIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaGeral">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retorna um conjunto de informação relativa a teses de doutoramento ou dissertações de mestrado, com base numa pesquisa sobre as variáveis indicadas no pedido. No máximo são devolvidos 200 registos.&lt;br&gt;  - &lt;a href='RenatesWs_PesquisaGeral.xlsx'&gt; Nome e descrição das variáveis devolvidas [xlsx]&lt;/a&gt;</wsdl:documentation>
+      <wsdl:input message="tns:PesquisaGeralSoapIn" />
+      <wsdl:output message="tns:PesquisaGeralSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaTexto">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retorna um conjunto de informação relativa a teses de doutoramento ou dissertações de mestrado, com base na pesquisa de um texto livre (mínimo de 5 carateres) sobre todas as variáveis de texto do registo. No máximo são devolvidos 200 registos. [EM TESTE]</wsdl:documentation>
+      <wsdl:input message="tns:PesquisaTextoSoapIn" />
+      <wsdl:output message="tns:PesquisaTextoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaRegistoInternoID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retorna um conjunto de informação relativa a uma tese de doutoramento ou dissertação de mestrado, sendo necessário indicar o código da unidade orgânica e o seu identificador interno (RegistoInternoID). [EM TESTE]</wsdl:documentation>
+      <wsdl:input message="tns:PesquisaRegistoInternoIDSoapIn" />
+      <wsdl:output message="tns:PesquisaRegistoInternoIDSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="RenatesWSHttpGet">
+    <wsdl:operation name="Tese">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retorna um conjunto de informação relativa a uma tese de doutoramento ou dissertação de mestrado, sendo necessário indicar o seu identificador TID.&lt;br&gt;  - &lt;a href='RenatesWs_Tese.xlsx'&gt; Nome e descrição das variáveis devolvidas [xlsx]&lt;/a&gt;</wsdl:documentation>
+      <wsdl:input message="tns:TeseHttpGetIn" />
+      <wsdl:output message="tns:TeseHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ListaOrientadores">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retorna um conjunto de informação relativa aos orientadores de uma tese de doutoramento ou dissertação de mestrado, sendo necessário indicar o seu identificador TID.</wsdl:documentation>
+      <wsdl:input message="tns:ListaOrientadoresHttpGetIn" />
+      <wsdl:output message="tns:ListaOrientadoresHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retorna o identificador TID de uma tese de doutoramento ou dissertação de mestrado, sendo necessário indicar o seu HandleDepositoRCAAP.</wsdl:documentation>
+      <wsdl:input message="tns:TIDHttpGetIn" />
+      <wsdl:output message="tns:TIDHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaGeral">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retorna um conjunto de informação relativa a teses de doutoramento ou dissertações de mestrado, com base numa pesquisa sobre as variáveis indicadas no pedido. No máximo são devolvidos 200 registos.&lt;br&gt;  - &lt;a href='RenatesWs_PesquisaGeral.xlsx'&gt; Nome e descrição das variáveis devolvidas [xlsx]&lt;/a&gt;</wsdl:documentation>
+      <wsdl:input message="tns:PesquisaGeralHttpGetIn" />
+      <wsdl:output message="tns:PesquisaGeralHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaTexto">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retorna um conjunto de informação relativa a teses de doutoramento ou dissertações de mestrado, com base na pesquisa de um texto livre (mínimo de 5 carateres) sobre todas as variáveis de texto do registo. No máximo são devolvidos 200 registos. [EM TESTE]</wsdl:documentation>
+      <wsdl:input message="tns:PesquisaTextoHttpGetIn" />
+      <wsdl:output message="tns:PesquisaTextoHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaRegistoInternoID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retorna um conjunto de informação relativa a uma tese de doutoramento ou dissertação de mestrado, sendo necessário indicar o código da unidade orgânica e o seu identificador interno (RegistoInternoID). [EM TESTE]</wsdl:documentation>
+      <wsdl:input message="tns:PesquisaRegistoInternoIDHttpGetIn" />
+      <wsdl:output message="tns:PesquisaRegistoInternoIDHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="RenatesWSHttpPost">
+    <wsdl:operation name="Tese">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retorna um conjunto de informação relativa a uma tese de doutoramento ou dissertação de mestrado, sendo necessário indicar o seu identificador TID.&lt;br&gt;  - &lt;a href='RenatesWs_Tese.xlsx'&gt; Nome e descrição das variáveis devolvidas [xlsx]&lt;/a&gt;</wsdl:documentation>
+      <wsdl:input message="tns:TeseHttpPostIn" />
+      <wsdl:output message="tns:TeseHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ListaOrientadores">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retorna um conjunto de informação relativa aos orientadores de uma tese de doutoramento ou dissertação de mestrado, sendo necessário indicar o seu identificador TID.</wsdl:documentation>
+      <wsdl:input message="tns:ListaOrientadoresHttpPostIn" />
+      <wsdl:output message="tns:ListaOrientadoresHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retorna o identificador TID de uma tese de doutoramento ou dissertação de mestrado, sendo necessário indicar o seu HandleDepositoRCAAP.</wsdl:documentation>
+      <wsdl:input message="tns:TIDHttpPostIn" />
+      <wsdl:output message="tns:TIDHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaGeral">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retorna um conjunto de informação relativa a teses de doutoramento ou dissertações de mestrado, com base numa pesquisa sobre as variáveis indicadas no pedido. No máximo são devolvidos 200 registos.&lt;br&gt;  - &lt;a href='RenatesWs_PesquisaGeral.xlsx'&gt; Nome e descrição das variáveis devolvidas [xlsx]&lt;/a&gt;</wsdl:documentation>
+      <wsdl:input message="tns:PesquisaGeralHttpPostIn" />
+      <wsdl:output message="tns:PesquisaGeralHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaTexto">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retorna um conjunto de informação relativa a teses de doutoramento ou dissertações de mestrado, com base na pesquisa de um texto livre (mínimo de 5 carateres) sobre todas as variáveis de texto do registo. No máximo são devolvidos 200 registos. [EM TESTE]</wsdl:documentation>
+      <wsdl:input message="tns:PesquisaTextoHttpPostIn" />
+      <wsdl:output message="tns:PesquisaTextoHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaRegistoInternoID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retorna um conjunto de informação relativa a uma tese de doutoramento ou dissertação de mestrado, sendo necessário indicar o código da unidade orgânica e o seu identificador interno (RegistoInternoID). [EM TESTE]</wsdl:documentation>
+      <wsdl:input message="tns:PesquisaRegistoInternoIDHttpPostIn" />
+      <wsdl:output message="tns:PesquisaRegistoInternoIDHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RenatesWSSoap" type="tns:RenatesWSSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Tese">
+      <soap:operation soapAction="http://tempuri.org/Ws/RenatesWS/Tese" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListaOrientadores">
+      <soap:operation soapAction="http://tempuri.org/Ws/RenatesWS/ListaOrientadores" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TID">
+      <soap:operation soapAction="http://tempuri.org/Ws/RenatesWS/TID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaGeral">
+      <soap:operation soapAction="http://tempuri.org/Ws/RenatesWS/PesquisaGeral" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaTexto">
+      <soap:operation soapAction="http://tempuri.org/Ws/RenatesWS/PesquisaTexto" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaRegistoInternoID">
+      <soap:operation soapAction="http://tempuri.org/Ws/RenatesWS/PesquisaRegistoInternoID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="RenatesWSSoap12" type="tns:RenatesWSSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Tese">
+      <soap12:operation soapAction="http://tempuri.org/Ws/RenatesWS/Tese" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListaOrientadores">
+      <soap12:operation soapAction="http://tempuri.org/Ws/RenatesWS/ListaOrientadores" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TID">
+      <soap12:operation soapAction="http://tempuri.org/Ws/RenatesWS/TID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaGeral">
+      <soap12:operation soapAction="http://tempuri.org/Ws/RenatesWS/PesquisaGeral" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaTexto">
+      <soap12:operation soapAction="http://tempuri.org/Ws/RenatesWS/PesquisaTexto" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaRegistoInternoID">
+      <soap12:operation soapAction="http://tempuri.org/Ws/RenatesWS/PesquisaRegistoInternoID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="RenatesWSHttpGet" type="tns:RenatesWSHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="Tese">
+      <http:operation location="/Tese" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListaOrientadores">
+      <http:operation location="/ListaOrientadores" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TID">
+      <http:operation location="/TID" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaGeral">
+      <http:operation location="/PesquisaGeral" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaTexto">
+      <http:operation location="/PesquisaTexto" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaRegistoInternoID">
+      <http:operation location="/PesquisaRegistoInternoID" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="RenatesWSHttpPost" type="tns:RenatesWSHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="Tese">
+      <http:operation location="/Tese" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListaOrientadores">
+      <http:operation location="/ListaOrientadores" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TID">
+      <http:operation location="/TID" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaGeral">
+      <http:operation location="/PesquisaGeral" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaTexto">
+      <http:operation location="/PesquisaTexto" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PesquisaRegistoInternoID">
+      <http:operation location="/PesquisaRegistoInternoID" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RenatesWS">
+    <wsdl:port name="RenatesWSSoap" binding="tns:RenatesWSSoap">
+      <soap:address location="https://renates.dgeec.mec.pt/ws/renatesws.asmx" />
+    </wsdl:port>
+    <wsdl:port name="RenatesWSSoap12" binding="tns:RenatesWSSoap12">
+      <soap12:address location="https://renates.dgeec.mec.pt/ws/renatesws.asmx" />
+    </wsdl:port>
+    <wsdl:port name="RenatesWSHttpGet" binding="tns:RenatesWSHttpGet">
+      <http:address location="https://renates.dgeec.mec.pt/ws/renatesws.asmx" />
+    </wsdl:port>
+    <wsdl:port name="RenatesWSHttpPost" binding="tns:RenatesWSHttpPost">
+      <http:address location="https://renates.dgeec.mec.pt/ws/renatesws.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
