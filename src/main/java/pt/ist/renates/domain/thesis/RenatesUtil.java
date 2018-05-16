@@ -1,9 +1,16 @@
 package pt.ist.renates.domain.thesis;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -15,9 +22,15 @@ import org.fenixedu.academic.domain.studentCurriculum.CurriculumLine;
 import org.fenixedu.academic.domain.studentCurriculum.Dismissal;
 import org.fenixedu.academic.domain.studentCurriculum.Substitution;
 import org.fenixedu.academic.domain.thesis.Thesis;
+import org.fenixedu.bennu.RenatesIntegrationConfiguration;
 import org.fenixedu.bennu.core.domain.Bennu;
 
 import com.google.common.base.Joiner;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import pt.ist.renates.domain.beans.OrientadorBean;
 
 public class RenatesUtil {
 
@@ -116,6 +129,51 @@ public class RenatesUtil {
             }
         }
         return null;
+    }
+
+    public static Map<String, OrientadorBean> getOrientatorsInfo() {
+
+        String orcid_info_url = RenatesIntegrationConfiguration.getConfiguration().getOrientatorsInfoURL();
+
+        String extra_header_key = RenatesIntegrationConfiguration.getConfiguration().getOrientatorsInfoURLHeaderKey();
+
+        String extra_header_value = RenatesIntegrationConfiguration.getConfiguration().getOrientatorsInfoURLHeaderValue();
+
+        try {
+            URL url = new URL(orcid_info_url);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty(extra_header_key, extra_header_value);
+
+            Gson gson = new GsonBuilder().create();
+
+            if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                return null;
+            }
+
+            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+
+            String output;
+            String jsonString = "";
+
+            while ((output = br.readLine()) != null) {
+                jsonString += output + "\n";
+            }
+
+            List<OrientadorBean> orientadorBeans = gson.fromJson(jsonString, new TypeToken<List<OrientadorBean>>() {
+            }.getType());
+
+            conn.disconnect();
+
+            Map<String, OrientadorBean> result =
+                    orientadorBeans.stream().collect(Collectors.toMap(OrientadorBean::getIstId, Function.identity()));
+
+            return result;
+
+        } catch (IOException e) {
+            return null;
+        }
     }
 
 }

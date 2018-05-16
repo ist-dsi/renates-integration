@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pt.ist.renates.domain.InstitutionCodeProvider;
+import pt.ist.renates.domain.beans.OrientadorBean;
 
 public class ThesisRenatesReportFile extends QueueJobWithFile {
 
@@ -153,6 +154,8 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
     private Spreadsheet retrieveIndividualThesisData() {
         Spreadsheet spreadsheet = new Spreadsheet("Renates-Thesis");
 
+        Map<String, OrientadorBean> orientatorsInfo = RenatesUtil.getOrientatorsInfo();
+
         for (Map.Entry<Thesis, ConclusionProcess> thesisEntry : RenatesUtil.getRenatesThesisAndConclusionProcess().entrySet()) {
 
             Thesis thesis = thesisEntry.getKey();
@@ -192,7 +195,7 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
 
             InstitutionCodeProvider institutionCodeProvider = RenatesIntegrationConfiguration.getInstitutionCodeProvider();
             row.setCell(PT_ESTABLISHMENT_CODE, institutionCodeProvider.getEstablishmentCode());
-            final DegreeCurricularPlan degreeCurricularPlan = thesis.getEnrolment().getDegreeCurricularPlanOfStudent();
+            final DegreeCurricularPlan degreeCurricularPlan = thesisEnrolment.getDegreeCurricularPlanOfStudent();
 
             row.setCell(ORGANIC_UNIT_CODE, institutionCodeProvider.getOrganicUnitCode(degreeCurricularPlan));
             final Degree degree = degreeCurricularPlan.getDegree();
@@ -209,15 +212,21 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
             for (int i = 1; i <= 5; i++) {
                 if (person_iterator.hasNext()) {
                     final Person advisor = person_iterator.next();
-
                     row.setCell(ADVISOR_X_NAME + i, advisor.getName());
                     row.setCell(ADVISOR_X_ID_NUMBER + i, advisor.getDocumentIdNumber());
+
                     final String advisor1IdType = idDocumentTypeToNumber(advisor.getIdDocumentType());
                     row.setCell(ADVISOR_X_ID_TYPE + i, advisor1IdType);
                     row.setCell(ADVISOR_X_OTHER_ID_TYPE + i,
-                            advisor.equals("9") ? advisor.getIdDocumentType().getLocalizedName(PT) : "");
-                    row.setCell(ADVISOR_X_ORCID + i, "");
+                            advisor1IdType.equals("9") ? advisor.getIdDocumentType().getLocalizedName(PT) : "");
 
+                    final String advisor_istId = advisor.getUser().getUsername();
+                    if (orientatorsInfo != null && orientatorsInfo.containsKey(advisor_istId)) {
+                        row.setCell(ADVISOR_X_ORCID + i, orientatorsInfo.get(advisor_istId).getOrcid());
+                    } else {
+                        row.setCell(ADVISOR_X_ORCID + i, "");
+
+                    }
                 }
 
                 else {
