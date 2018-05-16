@@ -18,6 +18,16 @@ public class RenatesIntegrationConfiguration {
 
         @ConfigurationProperty(key = "renates.organic.unit.code", defaultValue = "0000")
         public String getOrganicUnitCode();
+
+        @ConfigurationProperty(key = "renates.orientator.info.request.url")
+        public String getOrientatorsInfoURL();
+
+        @ConfigurationProperty(key = "renates.orientator.info.request.header.key")
+        public String getOrientatorsInfoURLHeaderKey();
+
+        @ConfigurationProperty(key = "renates.orientator.info.request.header.value")
+        public String getOrientatorsInfoURLHeaderValue();
+
     }
 
     public static ConfigurationProperties getConfiguration() {
