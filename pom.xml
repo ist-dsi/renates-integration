@@ -18,9 +18,8 @@
     <name>Renates Thesis Integration</name>
 
     <properties>
-        <version.org.fenixedu.bennu>4.1.0</version.org.fenixedu.bennu>
-        <version.org.fenixedu.bennu.spring>4.1.0</version.org.fenixedu.bennu.spring>        
-        <version.org.fenixedu.academic>7.4.0</version.org.fenixedu.academic>
+        <version.org.fenixedu.bennu>5.2.1</version.org.fenixedu.bennu>
+        <version.org.fenixedu.academic>18.2.0</version.org.fenixedu.academic>
         <version.org.apache.cxf>3.2.4</version.org.apache.cxf>
     </properties>
 
@@ -66,7 +65,7 @@
         <dependency>
             <groupId>org.fenixedu</groupId>
             <artifactId>bennu-spring</artifactId>
-            <version>${version.org.fenixedu.bennu.spring}</version>
+            <version>${version.org.fenixedu.bennu}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
