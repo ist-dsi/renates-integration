@@ -22,9 +22,6 @@ public class RenatesIntegrationConfiguration {
         @ConfigurationProperty(key = "renates.orientator.info.request.url")
         public String getOrientatorsInfoURL();
 
-        @ConfigurationProperty(key = "renates.orientator.info.request.header.key")
-        public String getOrientatorsInfoURLHeaderKey();
-
         @ConfigurationProperty(key = "renates.orientator.info.request.header.value")
         public String getOrientatorsInfoURLHeaderValue();
 
