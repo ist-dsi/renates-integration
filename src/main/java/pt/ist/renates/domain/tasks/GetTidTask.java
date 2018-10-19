@@ -19,13 +19,12 @@
 package pt.ist.renates.domain.tasks;
 
 import org.fenixedu.academic.domain.thesis.Thesis;
-
-import org.fenixedu.bennu.scheduler.annotation.Task;
 import org.fenixedu.bennu.scheduler.CronTask;
-
+import org.fenixedu.bennu.scheduler.annotation.Task;
 import org.tempuri.ws.renates.RenatesWS;
 import org.tempuri.ws.renates.RenatesWSSoap;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.renates.domain.thesis.RenatesUtil;
 import pt.ist.renates.domain.thesis.ThesisId;
 
@@ -42,7 +41,9 @@ public class GetTidTask extends CronTask {
                 String internalId = RenatesUtil.getThesisId(thesis);
                 String tid = port.tid(internalId);
                 if (tid != null) {
-                    thesis.setThesisId(new ThesisId(tid));
+                    FenixFramework.atomic(() -> {
+                        thesis.setThesisId(new ThesisId(tid));
+                    });
                 }
             }
         }
