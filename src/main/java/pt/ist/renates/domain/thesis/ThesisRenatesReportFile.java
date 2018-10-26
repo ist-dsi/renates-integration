@@ -171,7 +171,7 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
             final Person person = thesis.getStudent().getPerson();
 
             row.setCell(NAME, person.getName());
-            row.setCell(GENDER, person.getGender() == Gender.MALE ? "H" : "F");
+            row.setCell(GENDER, person.getGender() == Gender.MALE ? "H" : "M");
             row.setCell(BIRTH_DATE, person.getDateOfBirthYearMonthDay().toString("dd-MM-yyyy"));
             row.setCell(ID_NUMBER, person.getDocumentIdNumber());
 
