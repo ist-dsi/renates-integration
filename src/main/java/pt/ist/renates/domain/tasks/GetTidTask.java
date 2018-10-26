@@ -27,6 +27,7 @@ import org.tempuri.ws.renates.RenatesWSSoap;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.renates.domain.thesis.RenatesUtil;
 import pt.ist.renates.domain.thesis.ThesisId;
+import pt.ist.renates.domain.thesis.exceptions.InternalThesisIdException;
 
 @Task(englishTitle = "GetThesisTids", readOnly = true)
 public class GetTidTask extends CronTask {
@@ -38,7 +39,12 @@ public class GetTidTask extends CronTask {
 
         for (Thesis thesis : RenatesUtil.getRenatesThesis()) {
             if (thesis.getThesisId() == null || thesis.getThesisId().getId() == null) {
-                String internalId = RenatesUtil.getThesisId(thesis);
+                String internalId;
+                try {
+                    internalId = RenatesUtil.getThesisId(thesis);
+                } catch (InternalThesisIdException e) {
+                    continue;
+                }
                 String tid = port.tid(internalId);
                 if (tid != null) {
                     FenixFramework.atomic(() -> {
