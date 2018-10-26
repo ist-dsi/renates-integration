@@ -157,8 +157,6 @@ public class RenatesUtil {
 
         String orcid_info_url = RenatesIntegrationConfiguration.getConfiguration().getOrientatorsInfoURL();
 
-        String extra_header_key = RenatesIntegrationConfiguration.getConfiguration().getOrientatorsInfoURLHeaderKey();
-
         String extra_header_value = RenatesIntegrationConfiguration.getConfiguration().getOrientatorsInfoURLHeaderValue();
 
         try {
@@ -166,7 +164,7 @@ public class RenatesUtil {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoOutput(true);
             conn.setRequestMethod("GET");
-            conn.setRequestProperty(extra_header_key, extra_header_value);
+            conn.setRequestProperty("Authorization", extra_header_value);
 
             Gson gson = new GsonBuilder().create();
 
@@ -194,7 +192,7 @@ public class RenatesUtil {
             return result;
 
         } catch (IOException e) {
-            return null;
+            return new HashMap<String, OrientadorBean>();
         }
     }
 
