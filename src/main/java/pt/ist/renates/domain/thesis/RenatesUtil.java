@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -26,20 +27,41 @@ import org.fenixedu.bennu.RenatesIntegrationConfiguration;
 import org.fenixedu.bennu.core.domain.Bennu;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import pt.ist.renates.domain.beans.OrientadorBean;
+import pt.ist.renates.domain.thesis.exceptions.InternalThesisIdException;
 
 public class RenatesUtil {
 
-    public static String getThesisId(Thesis thesis) {
-        String istId = thesis.getStudent() == null ? thesis.getExternalId() : thesis.getStudent().getPerson().getUsername();
-        String course = thesis.getEnrolment() == null ? thesis.getExternalId() : thesis.getEnrolment()
-                .getDegreeCurricularPlanOfStudent().getDegree().getSigla();
-        String approval = thesis.getApproval() == null ? thesis.getExternalId() : Integer.toString(thesis.getApproval().getYear())
-                + Integer.toString(thesis.getApproval().getMonthOfYear());
+    public static String getThesisId(Thesis thesis) throws InternalThesisIdException {
+        List<String> errors = new ArrayList<>();
+
+        if (thesis.getStudent() == null) {
+            errors.add("A tese nao esta associada a um aluno");
+        }
+
+        if (thesis.getEnrolment() == null) {
+            errors.add("A tese nao esta associada a uma matricula");
+        }
+
+        if (thesis.getApproval() == null) {
+            errors.add("A tese nao tem data de aprovacao");
+        }
+
+        String error_description = Joiner.on("\n").join(errors);
+
+        if (!Strings.isNullOrEmpty(error_description)) {
+            throw new InternalThesisIdException(error_description);
+        }
+
+        String istId = thesis.getStudent().getPerson().getUsername();
+        String course = thesis.getEnrolment().getDegreeCurricularPlanOfStudent().getDegree().getSigla();
+        String approval =
+                Integer.toString(thesis.getApproval().getYear()) + Integer.toString(thesis.getApproval().getMonthOfYear());
 
         return Joiner.on("/").join(approval, course, istId);
     }

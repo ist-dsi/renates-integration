@@ -1,7 +1,9 @@
 package pt.ist.renates.domain.thesis;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -13,7 +15,6 @@ import org.fenixedu.academic.domain.Enrolment;
 import org.fenixedu.academic.domain.Person;
 import org.fenixedu.academic.domain.QueueJobResult;
 import org.fenixedu.academic.domain.QueueJobWithFile;
-import org.fenixedu.academic.domain.contacts.EmailAddress;
 import org.fenixedu.academic.domain.organizationalStructure.Party;
 import org.fenixedu.academic.domain.person.Gender;
 import org.fenixedu.academic.domain.person.IDDocumentType;
@@ -27,10 +28,20 @@ import org.fenixedu.commons.spreadsheet.Spreadsheet.Row;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
+
 import pt.ist.renates.domain.InstitutionCodeProvider;
 import pt.ist.renates.domain.beans.OrientadorBean;
+import pt.ist.renates.domain.thesis.exceptions.InternalThesisIdException;
 
 public class ThesisRenatesReportFile extends QueueJobWithFile {
+
+    private static final String ERROR_DESCRIPTION = "Descrição do erro";
+
+    private static final String ERROR_STUDENT_ID = "Student ID";
+
+    private static final String ERROR_SPEADSHEET_NAME = "Erros";
 
     private static final String DEFAULT_PARNTERSHIP_COURSE = "Não";
 
@@ -154,6 +165,8 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
     private Spreadsheet retrieveIndividualThesisData() {
         Spreadsheet spreadsheet = new Spreadsheet("Renates-Thesis");
 
+        Spreadsheet error_spreadsheet = spreadsheet.addSpreadsheet(ERROR_SPEADSHEET_NAME);
+
         Map<String, OrientadorBean> orientatorsInfo = RenatesUtil.getOrientatorsInfo();
 
         for (Map.Entry<Thesis, ConclusionProcess> thesisEntry : RenatesUtil.getRenatesThesisAndConclusionProcess().entrySet()) {
@@ -166,9 +179,18 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
                 continue;
             }
 
-            final Row row = spreadsheet.addRow();
-
             final Person person = thesis.getStudent().getPerson();
+
+            String errors_description = check_person_data(person, thesis);
+
+            if (!Strings.isNullOrEmpty(errors_description)) {
+                Row errors_row = error_spreadsheet.addRow();
+                errors_row.setCell(ERROR_STUDENT_ID, person.getPresentationName());
+                errors_row.setCell(ERROR_DESCRIPTION, errors_description);
+                continue;
+            }
+
+            final Row row = spreadsheet.addRow();
 
             row.setCell(NAME, person.getName());
             row.setCell(GENDER, person.getGender() == Gender.MALE ? "H" : "M");
@@ -179,17 +201,13 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
 
             row.setCell(ID_TYPE, studentIdType);
             row.setCell(OTHER_ID_TYPE, studentIdType.equals("9") ? person.getIdDocumentType().getLocalizedName(PT) : "");
-            row.setCell(NATIONALITY, person.getCountryOfBirth().getCode());
 
+            row.setCell(NATIONALITY, person.getCountryOfBirth().getCode());
             row.setCell(OTHER_NATIONALITY, "");
             row.setCell(ADRESS, "");
             row.setCell(PHONE, "");
 
-            final EmailAddress email = person.getEmailAddressForSendingEmails();
-            final String email_string = email == null ? "ist1" + thesis.getStudent().getNumber().toString()
-                    + "@tecnico.ulisboa.pt" : email.getPresentationValue();
-
-            row.setCell(EMAIL, email_string);
+            row.setCell(EMAIL, person.getEmailAddressForSendingEmails().getPresentationValue());
 
             row.setCell(OTHER_EMAIL, "");
 
@@ -258,7 +276,12 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
             row.setCell(CLASSIFICATION, conclusionProcess.getFinalGrade().getValue());
 
             row.setCell(HANDLE_DEPOSITO_RCAAP, "");
-            row.setCell(REGISTO_INTERNO_ID, RenatesUtil.getThesisId(thesis));
+
+            try {
+                row.setCell(REGISTO_INTERNO_ID, RenatesUtil.getThesisId(thesis));
+            } catch (InternalThesisIdException internalThesisIdException) {
+                row.setCell(REGISTO_INTERNO_ID, "");
+            }
 
         }
 
@@ -318,6 +341,42 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
         }
 
         return advisors;
+    }
+
+    private String check_person_data(Person person, Thesis thesis) {
+        List<String> errors = new ArrayList<>();
+
+        if (person.getName() == null) {
+            errors.add("Não tem nome definido.");
+        }
+
+        if (person.getGender() == null) {
+            errors.add("Não tem género definido.");
+        }
+
+        if (person.getDateOfBirthYearMonthDay() == null) {
+            errors.add(" Não tem data de nascimento definido.");
+        }
+
+        if (person.getDocumentIdNumber() == null) {
+            errors.add("Não tem tipo de cartão de identificação definido.");
+        }
+
+        if (person.getCountryOfBirth() == null) {
+            errors.add("Não tem local de nascimento definido.");
+        }
+
+        if (person.getEmailAddressForSendingEmails() == null) {
+            errors.add("Não tem email definido.");
+        }
+
+        try {
+            RenatesUtil.getThesisId(thesis);
+        } catch (InternalThesisIdException internalThesisIdException) {
+            errors.add(internalThesisIdException.getMessage());
+        }
+
+        return Joiner.on("\n").join(errors);
     }
 
 }
