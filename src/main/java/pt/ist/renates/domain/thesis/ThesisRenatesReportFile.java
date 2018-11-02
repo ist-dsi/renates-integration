@@ -15,6 +15,8 @@ import org.fenixedu.academic.domain.Enrolment;
 import org.fenixedu.academic.domain.Person;
 import org.fenixedu.academic.domain.QueueJobResult;
 import org.fenixedu.academic.domain.QueueJobWithFile;
+import org.fenixedu.academic.domain.contacts.EmailAddress;
+import org.fenixedu.academic.domain.contacts.PartyContact;
 import org.fenixedu.academic.domain.organizationalStructure.Party;
 import org.fenixedu.academic.domain.person.Gender;
 import org.fenixedu.academic.domain.person.IDDocumentType;
@@ -207,7 +209,7 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
             row.setCell(ADRESS, "");
             row.setCell(PHONE, "");
 
-            row.setCell(EMAIL, person.getEmailAddressForSendingEmails().getPresentationValue());
+            row.setCell(EMAIL, getPersonEmail(person).getPresentationValue());
 
             row.setCell(OTHER_EMAIL, "");
 
@@ -366,7 +368,7 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
             errors.add("Não tem local de nascimento definido.");
         }
 
-        if (person.getEmailAddressForSendingEmails() == null) {
+        if (getPersonEmail(person) == null) {
             errors.add("Não tem email definido.");
         }
 
@@ -377,6 +379,25 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
         }
 
         return Joiner.on("\n").join(errors);
+    }
+
+    public EmailAddress getPersonEmail(Person person) {
+        final EmailAddress defaultEmailAddress = person.getDefaultEmailAddress();
+        if (defaultEmailAddress != null) {
+            return defaultEmailAddress;
+        }
+        final EmailAddress institutionalEmailAddress = person.getInstitutionalEmailAddress();
+        if (institutionalEmailAddress != null) {
+            return institutionalEmailAddress;
+        }
+        for (final PartyContact partyContact : person.getPartyContactsSet()) {
+            if (partyContact.isEmailAddress() && partyContact.isActiveAndValid() && partyContact.isValid()) {
+                final EmailAddress otherEmailAddress = (EmailAddress) partyContact;
+                return otherEmailAddress;
+            }
+        }
+
+        return null;
     }
 
 }
