@@ -2,12 +2,16 @@ package pt.ist.renates.domain.thesis;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.TreeSet;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.fenixedu.academic.domain.Degree;
 import org.fenixedu.academic.domain.DegreeCurricularPlan;
@@ -38,6 +42,8 @@ import pt.ist.renates.domain.beans.OrientadorBean;
 import pt.ist.renates.domain.thesis.exceptions.InternalThesisIdException;
 
 public class ThesisRenatesReportFile extends QueueJobWithFile {
+
+    private static final String DEFAULT_SPREADSHEET_NAME = "Renates-Thesis-%s-%s";
 
     private static final String ERROR_DESCRIPTION = "Descrição do erro";
 
@@ -142,14 +148,24 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
     @Override
     public QueueJobResult execute() throws Exception {
         logger.debug("running {}", this.getExternalId());
-        Spreadsheet spreasheet = retrieveIndividualThesisData();
-        ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
 
-        spreasheet.exportToXLSSheet(byteArrayOS);
-        byteArrayOS.close();
+        ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
+        ZipOutputStream zip = new ZipOutputStream(byteArrayOS);
+        for (Map.Entry<String, Spreadsheet> spreadsheet_entry : retrieveIndividualThesisData().entrySet()) {
+            String spreadsheet_name = spreadsheet_entry.getKey() + ".xls";
+            Spreadsheet spreadsheet = spreadsheet_entry.getValue();
+
+            zip.putNextEntry(new ZipEntry(spreadsheet_name));
+            ByteArrayOutputStream oStream = new ByteArrayOutputStream();
+            spreadsheet.exportToXLSSheet(oStream);
+
+            zip.write(oStream.toByteArray());
+            zip.closeEntry();
+        }
+        zip.close();
 
         final QueueJobResult queueJobResult = new QueueJobResult();
-        queueJobResult.setContentType("application/excel");
+        queueJobResult.setContentType("application/zip");
         queueJobResult.setContent(byteArrayOS.toByteArray());
 
         return queueJobResult;
@@ -157,24 +173,29 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
 
     @Override
     public String getFilename() {
-        return String.format("%s_%s.xls", "thesis_information", getRequestDate().toString("dd_MM_yyyy_hh_mm_ss"));
+        return String.format("%s_%s.zip", "thesis_information", getRequestDate().toString("dd_MM_yyyy_hh_mm_ss"));
     }
 
     public static ThesisRenatesReportFile buildRenatesReport() {
         return new ThesisRenatesReportFile();
     }
 
-    private Spreadsheet retrieveIndividualThesisData() {
-        Spreadsheet spreadsheet = new Spreadsheet("Renates-Thesis");
+    private Map<String, Spreadsheet> retrieveIndividualThesisData() {
+        Map<String, Spreadsheet> spreadsheets_map = new HashMap<>();
+        Map<String, Integer> spreadsheets_counter_map = new HashMap<>();
+        Map<String, Spreadsheet> names_and_spreadsheets = new HashMap<>();
+        final int entries_limit = RenatesIntegrationConfiguration.getConfiguration().getEntriesLimit();
 
-        Spreadsheet error_spreadsheet = spreadsheet.addSpreadsheet(ERROR_SPEADSHEET_NAME);
+        Spreadsheet error_spreadsheet = new Spreadsheet(ERROR_SPEADSHEET_NAME);
+
+        names_and_spreadsheets.put(ERROR_SPEADSHEET_NAME, error_spreadsheet);
 
         Map<String, OrientadorBean> orientatorsInfo = RenatesUtil.getOrientatorsInfo();
 
-        for (Map.Entry<Thesis, ConclusionProcess> thesisEntry : RenatesUtil.getRenatesThesisAndConclusionProcess().entrySet()) {
+        for (SortedMap.Entry<ConclusionProcess, Thesis> thesisEntry : RenatesUtil.getRenatesThesisAndConclusionProcess().entrySet()) {
 
-            Thesis thesis = thesisEntry.getKey();
-            ConclusionProcess conclusionProcess = thesisEntry.getValue();
+            Thesis thesis = thesisEntry.getValue();
+            ConclusionProcess conclusionProcess = thesisEntry.getKey();
             Enrolment thesisEnrolment = thesis.getEnrolment();
 
             if (thesis.getThesisId() != null && thesis.getThesisId().getId() != null) {
@@ -191,6 +212,34 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
                 errors_row.setCell(ERROR_DESCRIPTION, errors_description);
                 continue;
             }
+
+            InstitutionCodeProvider institutionCodeProvider = RenatesIntegrationConfiguration.getInstitutionCodeProvider();
+            final DegreeCurricularPlan degreeCurricularPlan = thesisEnrolment.getDegreeCurricularPlanOfStudent();
+            final Degree degree = degreeCurricularPlan.getDegree();
+
+            String organicUnitName = degreeCurricularPlan.getLastCampus().getName();
+
+            Spreadsheet spreadsheet = null;
+
+            if (!spreadsheets_map.containsKey(organicUnitName)) {
+                String spreadsheet_name = String.format(DEFAULT_SPREADSHEET_NAME, organicUnitName, 0);
+                spreadsheet = new Spreadsheet(spreadsheet_name);
+                names_and_spreadsheets.put(spreadsheet_name, spreadsheet);
+                spreadsheets_map.put(organicUnitName, spreadsheet);
+                spreadsheets_counter_map.put(organicUnitName, 1);
+            } else {
+                spreadsheet = spreadsheets_map.get(organicUnitName);
+
+                if (spreadsheet.getRows().size() >= entries_limit - 1) {
+                    int counter = spreadsheets_counter_map.get(organicUnitName);
+                    String spreadsheet_name = String.format(DEFAULT_SPREADSHEET_NAME, organicUnitName, counter);
+                    spreadsheet = new Spreadsheet(spreadsheet_name);
+                    names_and_spreadsheets.put(spreadsheet_name, spreadsheet);
+                    spreadsheets_map.put(organicUnitName, spreadsheet);
+                    spreadsheets_counter_map.put(organicUnitName, counter + 1);
+                }
+            }
+
 
             final Row row = spreadsheet.addRow();
 
@@ -213,12 +262,9 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
 
             row.setCell(OTHER_EMAIL, "");
 
-            InstitutionCodeProvider institutionCodeProvider = RenatesIntegrationConfiguration.getInstitutionCodeProvider();
             row.setCell(PT_ESTABLISHMENT_CODE, institutionCodeProvider.getEstablishmentCode());
-            final DegreeCurricularPlan degreeCurricularPlan = thesisEnrolment.getDegreeCurricularPlanOfStudent();
 
             row.setCell(ORGANIC_UNIT_CODE, institutionCodeProvider.getOrganicUnitCode(degreeCurricularPlan));
-            final Degree degree = degreeCurricularPlan.getDegree();
 
             row.setCell(COURSE_CODE, degree.getMinistryCode());
             row.setCell(COURSE, degree.getPresentationName());
@@ -287,7 +333,7 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
 
         }
 
-        return spreadsheet;
+        return names_and_spreadsheets;
 
     }
 
