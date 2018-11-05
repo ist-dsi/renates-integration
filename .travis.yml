@@ -1,6 +1,12 @@
 language: java
+
+cache:
+  directories:
+  - $HOME/.m2
+  
 jdk:
 - oraclejdk8
+
 sudo: false
 
 # TODO: Remove the Strict Quote Escaping Flag once ACDM-472 is resolved
