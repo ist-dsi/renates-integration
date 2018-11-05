@@ -25,6 +25,9 @@ public class RenatesIntegrationConfiguration {
         @ConfigurationProperty(key = "renates.orientator.info.request.header.value")
         public String getOrientatorsInfoURLHeaderValue();
 
+        @ConfigurationProperty(key = "renates.file.entries.limit", defaultValue = "1000")
+        public int getEntriesLimit();
+
     }
 
     public static ConfigurationProperties getConfiguration() {

@@ -6,11 +6,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -36,6 +39,14 @@ import pt.ist.renates.domain.beans.OrientadorBean;
 import pt.ist.renates.domain.thesis.exceptions.InternalThesisIdException;
 
 public class RenatesUtil {
+
+    private static Comparator<ConclusionProcess> COMPARATOR_BY_CONCLUSION_DATE = new Comparator<ConclusionProcess>() {
+        @Override
+        public int compare(final ConclusionProcess c1, final ConclusionProcess c2) {
+            int result = c1.getConclusionDate().compareTo(c2.getConclusionDate());
+            return result == 0 ? c1.getExternalId().compareTo(c2.getExternalId()) : result;
+        }
+    };
 
     public static String getThesisId(Thesis thesis) throws InternalThesisIdException {
         List<String> errors = new ArrayList<>();
@@ -92,8 +103,8 @@ public class RenatesUtil {
         return thesisSet;
     }
 
-    public static Map<Thesis, ConclusionProcess> getRenatesThesisAndConclusionProcess() {
-        Map<Thesis, ConclusionProcess> thesisSet = new HashMap<Thesis, ConclusionProcess>();
+    public static SortedMap<ConclusionProcess, Thesis> getRenatesThesisAndConclusionProcess() {
+        SortedMap<ConclusionProcess, Thesis> thesisSet = new TreeMap<ConclusionProcess, Thesis>(COMPARATOR_BY_CONCLUSION_DATE);
         Set<CurriculumGroup> collect =
                 Bennu.getInstance().getProgramConclusionSet().stream().flatMap(pc -> pc.getCourseGroupSet().stream())
                         .filter(cg -> cg.isCycleCourseGroup() && ((CycleCourseGroup) cg).isSecondCycle())
@@ -112,7 +123,7 @@ public class RenatesUtil {
                 continue;
             }
 
-            thesisSet.put(thesis, conclusionProcess);
+            thesisSet.put(conclusionProcess, thesis);
 
         }
 
