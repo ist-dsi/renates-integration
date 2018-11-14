@@ -141,6 +141,8 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
 
     private final static Locale PT = new Locale("pt", "PT");
 
+    private final static Locale EN = new Locale("en", "GB");
+
     protected ThesisRenatesReportFile() {
         super();
     }
@@ -271,7 +273,7 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
 
             row.setCell(ESPECIALIZACAO_CODE, DEFAULT_SPECIALIZATION_CODE);
             row.setCell(SPECIALIZATION, DEFAULT_SPECIALIZATION);
-            row.setCell(TITLE, thesis.getTitle().getContent(PT));
+            row.setCell(TITLE, getThesisTitle(thesis));
 
             //Writing on advisor columns            
             Iterator<Person> person_iterator = getAdvisors(thesis).iterator();
@@ -418,6 +420,16 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
             errors.add("Não tem email definido.");
         }
 
+        if (getThesisTitle(thesis).isEmpty()) {
+            errors.add("Não tem título definido");
+        }
+
+        if (person.getCountryOfBirth().getCode().equals("PT")
+                && !idDocumentTypeToNumber(person.getIdDocumentType()).equals("1")) {
+            errors.add(
+                    "Tem nacionalidade Portuguesa mas o documento de identificação não é o cartão de identificação nem o cartão de cidadão");
+        }
+
         try {
             RenatesUtil.getThesisId(thesis);
         } catch (InternalThesisIdException internalThesisIdException) {
@@ -446,4 +458,18 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
         return null;
     }
 
+    public String getThesisTitle(Thesis thesis) {
+
+        String title = thesis.getTitle().getContent(PT);
+
+        if (Strings.isNullOrEmpty(title)) {
+            title = thesis.getTitle().getContent(EN);
+        }
+
+        if (Strings.isNullOrEmpty(title)) {
+            title = thesis.getDissertation().getTitle();
+        }
+
+        return Strings.isNullOrEmpty(title) ? "" : title;
+    }
 }
