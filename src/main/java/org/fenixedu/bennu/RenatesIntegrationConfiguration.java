@@ -28,6 +28,9 @@ public class RenatesIntegrationConfiguration {
         @ConfigurationProperty(key = "renates.file.entries.limit", defaultValue = "1000")
         public int getEntriesLimit();
 
+        @ConfigurationProperty(key = "renates.file.entries.start.date", defaultValue = "31/12/2009")
+        public String getEntriesStartDate();
+
     }
 
     public static ConfigurationProperties getConfiguration() {
