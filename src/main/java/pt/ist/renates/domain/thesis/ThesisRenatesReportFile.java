@@ -31,6 +31,8 @@ import org.fenixedu.academic.domain.thesis.ThesisParticipationType;
 import org.fenixedu.bennu.RenatesIntegrationConfiguration;
 import org.fenixedu.commons.spreadsheet.Spreadsheet;
 import org.fenixedu.commons.spreadsheet.Spreadsheet.Row;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -185,6 +187,9 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
         Map<String, Integer> spreadsheets_counter_map = new HashMap<>();
         Map<String, Spreadsheet> names_and_spreadsheets = new HashMap<>();
         final int entries_limit = RenatesIntegrationConfiguration.getConfiguration().getEntriesLimit();
+        final LocalDate entries_startDate =
+                LocalDate.parse(RenatesIntegrationConfiguration.getConfiguration().getEntriesStartDate(),
+                        DateTimeFormat.forPattern("dd/MM/yyyy"));
 
         Spreadsheet error_spreadsheet = new Spreadsheet(ERROR_SPEADSHEET_NAME);
 
@@ -199,6 +204,12 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
             Enrolment thesisEnrolment = thesis.getEnrolment();
 
             if (thesis.getThesisId() != null && thesis.getThesisId().getId() != null) {
+                continue;
+            }
+
+            LocalDate conclusionDate = conclusionProcess.getConclusionDate();
+
+            if (entries_startDate.isAfter(conclusionDate)) {
                 continue;
             }
 
@@ -320,7 +331,7 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
             row.setCell(ESTABLISHMENT_8, "");
             row.setCell(OBSERVATIONS, "");
 
-            row.setCell(PT_GRADUATION_DATE, conclusionProcess.getConclusionDate().toString("dd-MM-yyyy"));
+            row.setCell(PT_GRADUATION_DATE, conclusionDate.toString("dd-MM-yyyy"));
             row.setCell(CLASSIFICATION, conclusionProcess.getFinalGrade().getValue());
 
             row.setCell(HANDLE_DEPOSITO_RCAAP, "");
