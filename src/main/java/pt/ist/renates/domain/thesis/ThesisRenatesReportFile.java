@@ -435,7 +435,7 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
             errors.add("Não tem título definido");
         }
 
-        if (person.getCountryOfBirth().getCode().equals("PT")
+        if (person.getCountryOfBirth() != null && person.getCountryOfBirth().getCode().equals("PT")
                 && !idDocumentTypeToNumber(person.getIdDocumentType()).equals("1")) {
             errors.add(
                     "Tem nacionalidade Portuguesa mas o documento de identificação não é o cartão de identificação nem o cartão de cidadão");
