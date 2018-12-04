@@ -300,12 +300,9 @@ public class ThesisRenatesReportFile extends QueueJobWithFile {
                             advisor1IdType.equals("9") ? advisor.getIdDocumentType().getLocalizedName(PT) : "");
 
                     final String advisor_istId = advisor.getUser().getUsername();
-                    if (orientatorsInfo != null && orientatorsInfo.containsKey(advisor_istId)) {
-                        row.setCell(ADVISOR_X_ORCID + i, orientatorsInfo.get(advisor_istId).getOrcid());
-                    } else {
-                        row.setCell(ADVISOR_X_ORCID + i, "");
-
-                    }
+                    String orcid =
+                            orientatorsInfo.containsKey(advisor_istId) ? orientatorsInfo.get(advisor_istId).getOrcid() : "";
+                    row.setCell(ADVISOR_X_ORCID + i, orcid);
                 }
 
                 else {

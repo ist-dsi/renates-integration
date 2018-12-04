@@ -180,7 +180,7 @@ public class RenatesUtil {
             Gson gson = new GsonBuilder().create();
 
             if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                return null;
+                return new HashMap<String, OrientadorBean>();
             }
 
             BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
